@@ -1,11 +1,15 @@
 let userScore = 0;
 let compScore = 0;
+let gameActive = false;
 
 const choices = document.querySelectorAll(".choice");
 const msg = document.querySelector("#msg");
 
 const userScorePara = document.querySelector("#user-score");
 const compScorePara = document.querySelector("#comp-score");
+
+const newGameBtn = document.createElement("button");
+const resetGameBtn = document.createElement("button");
 const playAgainBtn = document.createElement("button");
 
 const genCompChoice = () => {
@@ -32,7 +36,9 @@ const showWinner = (userWin, userChoice, compChoice) => {
     msg.style.backgroundColor = "red";
   }
 
+  // Check if anyone has won 5 games
   if (userScore === 5 || compScore === 5) {
+    gameActive = false;
     const winner = userScore === 5 ? "You" : "Computer";
     msg.innerText = `${winner} won the game!`;
     showPlayAgainButton();
@@ -40,11 +46,11 @@ const showWinner = (userWin, userChoice, compChoice) => {
 };
 
 const playGame = (userChoice) => {
-  
+  if (!gameActive) return;
+
   const compChoice = genCompChoice();
 
   if (userChoice === compChoice) {
-    
     drawGame();
   } else {
     let userWin = true;
@@ -64,7 +70,18 @@ const showPlayAgainButton = () => {
   playAgainBtn.id = "play-again";
   document.body.appendChild(playAgainBtn);
 
-  playAgainBtn.addEventListener("click", resetGame);
+  playAgainBtn.addEventListener("click", startNewGame);
+};
+
+const startNewGame = () => {
+  userScore = 0;
+  compScore = 0;
+  userScorePara.innerText = userScore;
+  compScorePara.innerText = compScore;
+  msg.innerText = "Play your move";
+  msg.style.backgroundColor = "#081b31";
+  gameActive = true;
+  playAgainBtn.remove();
 };
 
 const resetGame = () => {
@@ -72,9 +89,22 @@ const resetGame = () => {
   compScore = 0;
   userScorePara.innerText = userScore;
   compScorePara.innerText = compScore;
-  msg.innerText = "Play your move";
+  msg.innerText = "Game reset. Play your move";
   msg.style.backgroundColor = "#081b31";
-  playAgainBtn.remove();
+  gameActive = true;
+};
+
+const initGame = () => {
+  newGameBtn.innerText = "New Game";
+  newGameBtn.id = "new-game";
+  document.body.appendChild(newGameBtn);
+
+  resetGameBtn.innerText = "Reset Game";
+  resetGameBtn.id = "reset-game";
+  document.body.appendChild(resetGameBtn);
+
+  newGameBtn.addEventListener("click", startNewGame);
+  resetGameBtn.addEventListener("click", resetGame);
 };
 
 choices.forEach((choice) => {
@@ -83,3 +113,5 @@ choices.forEach((choice) => {
     playGame(userChoice);
   });
 });
+
+initGame();

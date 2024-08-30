@@ -72,11 +72,10 @@
     padding: 0.5rem 2rem;
     font-size: 1.5rem;
     color: #fff;
-    background-color: black;
+    background-color: #081b31;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    /* Center the button horizontally */
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -86,7 +85,6 @@
     background-color: #ff4f41;
   }
   
-  /* Responsive Styles */
   @media (max-width: 1024px) {
     h1 {
       font-size: 2.5rem;
@@ -216,5 +214,38 @@
       font-size: 1rem;
       padding: 0.3rem 1rem;
     }
+  }
+
+button {
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    background-color: #081b31;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #06244f;
+  }
+  
+  #new-game,
+  #reset-game,
+  #play-again {
+    display: block;
+    margin: 1.5rem auto;
+    width: 200px;
+  }
+  
+  .msg-container {
+    margin-top: 2rem;
+  }
+  
+  
+  #play-again {
+    margin-top: 1rem;
   }
   
