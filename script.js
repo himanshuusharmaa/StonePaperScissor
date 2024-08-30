@@ -6,6 +6,7 @@ const msg = document.querySelector("#msg");
 
 const userScorePara = document.querySelector("#user-score");
 const compScorePara = document.querySelector("#comp-score");
+const playAgainBtn = document.createElement("button");
 
 const genCompChoice = () => {
   const options = ["rock", "paper", "scissors"];
@@ -30,34 +31,55 @@ const showWinner = (userWin, userChoice, compChoice) => {
     msg.innerText = `You lost. ${compChoice} beats your ${userChoice}`;
     msg.style.backgroundColor = "red";
   }
+
+  if (userScore === 5 || compScore === 5) {
+    const winner = userScore === 5 ? "You" : "Computer";
+    msg.innerText = `${winner} won the game!`;
+    showPlayAgainButton();
+  }
 };
 
 const playGame = (userChoice) => {
-  //Generate computer choice
+  
   const compChoice = genCompChoice();
 
   if (userChoice === compChoice) {
-    //Draw Game
+    
     drawGame();
   } else {
     let userWin = true;
     if (userChoice === "rock") {
-      //scissors, paper
-      userWin = compChoice === "paper" ? false : true;
+      userWin = compChoice === "scissors";
     } else if (userChoice === "paper") {
-      //rock, scissors
-      userWin = compChoice === "scissors" ? false : true;
-    } else {
-      //rock, paper
-      userWin = compChoice === "rock" ? false : true;
+      userWin = compChoice === "rock";
+    } else if (userChoice === "scissors") {
+      userWin = compChoice === "paper";
     }
     showWinner(userWin, userChoice, compChoice);
   }
 };
 
+const showPlayAgainButton = () => {
+  playAgainBtn.innerText = "Play Again";
+  playAgainBtn.id = "play-again";
+  document.body.appendChild(playAgainBtn);
+
+  playAgainBtn.addEventListener("click", resetGame);
+};
+
+const resetGame = () => {
+  userScore = 0;
+  compScore = 0;
+  userScorePara.innerText = userScore;
+  compScorePara.innerText = compScore;
+  msg.innerText = "Play your move";
+  msg.style.backgroundColor = "#081b31";
+  playAgainBtn.remove();
+};
+
 choices.forEach((choice) => {
   choice.addEventListener("click", () => {
-    const userChoice = choice.getAttribute("id");
+    const userChoice = choice.id;
     playGame(userChoice);
   });
 });
